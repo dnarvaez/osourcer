@@ -18,6 +18,60 @@ import datetime
 import fnmatch
 import os
 
+_apache = {}
+
+_apache["header_html"] = """\
+<!--
+  - Copyright %(year)s %(name)s
+  -
+  - Licensed under the Apache License, Version 2.0 (the "License");
+  - you may not use this file except in compliance with the License.
+  - You may obtain a copy of the License at
+  -
+  -
+  -    http://www.apache.org/licenses/LICENSE-2.0
+  -
+  - Unless required by applicable law or agreed to in writing, software
+  - distributed under the License is distributed on an "AS IS" BASIS,
+  - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  - See the License for the specific language governing permissions and
+  - limitations under the License.
+  -->"""
+
+_apache["header_js"] = """\
+/*
+ * Copyright %(year)s %(name)s
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */"""
+
+_apache["header_python"] = """\
+# Copyright %(year)s %(name)s
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License."""
+
 _lgplv3 = {}
 
 _lgplv3["header_html"] = """\
@@ -147,7 +201,8 @@ def _add_header(code, header, is_html):
 
 def _cmd_add_headers(args):
     licenses = {"gplv3": _gplv3,
-                "lgplv3": _lgplv3}
+                "lgplv3": _lgplv3,
+                "apache": _apache}
 
     license_info = licenses[args.license]
 
@@ -190,7 +245,7 @@ def _main():
                             help="the name of the owner")
     add_parser.add_argument("--project", required=True,
                             help="the name of the projec.")
-    add_parser.add_argument("--license", choices=["gplv3", "lgplv3"],
+    add_parser.add_argument("--license", choices=["gplv3", "lgplv3", "apache"],
                             required=True, help="the license to use")
     add_parser.set_defaults(func=_cmd_add_headers)
 
